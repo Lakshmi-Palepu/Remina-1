@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Remina — Voices from Memory Care</title>
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#2DBD7E;--green-dark:#1a9460;--green-deep:#0f5c3c;
+  --green-light:#e8f8f0;--green-pale:#f3fcf8;
+  --amber:#F5A623;--amber-dark:#d4891a;--amber-light:#fef5e4;
+  --pink:#E8276B;--pink-dark:#c01e58;--pink-light:#fde8f1;
+  --blue:#2563EB;--blue-dark:#1d4ed8;--blue-light:#eff6ff;
+  --purple:#7C3AED;--purple-dark:#5B21B6;--purple-light:#f5f3ff;
+  --charcoal:#1C1C1C;--mid:#555;--muted:#888;
+  --border:#e8e8e8;--bg:#fff;--bg-warm:#fafaf8;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Nunito',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--charcoal);overflow-x:hidden;line-height:1.6}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(255,255,255,0.96);backdrop-filter:blur(8px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+nav.scrolled{border-color:var(--border);box-shadow:0 2px 16px rgba(0,0,0,.05)}
+.logo-svg{height:44px;width:auto;display:block}
+.logo-svg-sm{height:36px}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:.875rem;font-weight:400;color:var(--mid);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--charcoal)}
+.nav-links a.active{color:var(--green);font-weight:600}
+.btn-demo{background:var(--green);color:#fff;padding:.6rem 1.5rem;border-radius:24px;font-size:.875rem;font-weight:600;text-decoration:none;transition:background .2s,transform .15s;display:inline-block}
+.btn-demo:hover{background:var(--green-dark);transform:translateY(-1px)}
+/* HAMBURGER */
+.nav-toggle{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;z-index:300}
+.nav-toggle span{display:block;width:24px;height:2px;background:var(--charcoal);border-radius:2px;transition:transform .3s,opacity .3s}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* HERO */
+.page-hero{background:var(--charcoal);padding:7rem 3rem 4rem;text-align:center;position:relative;overflow:hidden}
+.page-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),var(--amber),var(--pink))}
+.hero-eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.18em;font-weight:700;color:var(--green);margin-bottom:1rem}
+.hero-h1{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:400;color:#fff;line-height:1.2;margin-bottom:1rem;letter-spacing:-.02em}
+.hero-h1 em{font-style:italic;color:var(--green)}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.55);max-width:580px;margin:0 auto 2.5rem;line-height:1.8;font-style:italic}
+.role-pills{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center}
+.role-pill{padding:.4rem 1rem;border-radius:20px;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;border:1.5px solid transparent;text-decoration:none}
+.rp-green{background:rgba(45,189,126,.15);color:var(--green);border-color:rgba(45,189,126,.3)}
+.rp-amber{background:rgba(245,166,35,.15);color:var(--amber);border-color:rgba(245,166,35,.3)}
+.rp-pink{background:rgba(232,39,107,.15);color:#f472b6;border-color:rgba(232,39,107,.3)}
+.rp-blue{background:rgba(37,99,235,.15);color:#93c5fd;border-color:rgba(37,99,235,.3)}
+.rp-purple{background:rgba(124,58,237,.15);color:#c4b5fd;border-color:rgba(124,58,237,.3)}
+
+/* ROLE SECTIONS */
+.role-section{padding:5rem 3rem;border-bottom:1px solid var(--border)}
+.role-section:last-of-type{border-bottom:none}
+.role-section.bg-warm{background:var(--bg-warm)}
+.role-section.bg-white{background:var(--bg)}
+
+.role-header{display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+.role-icon-wrap{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.role-eyebrow{font-size:.68rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700;margin-bottom:.4rem}
+.role-title{font-family:var(--serif);font-size:1.8rem;font-weight:400;line-height:1.2;margin-bottom:.5rem;letter-spacing:-.01em}
+.role-desc{font-size:.95rem;color:var(--mid);line-height:1.7;max-width:640px}
+
+/* TESTIMONIAL CARDS */
+.testi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem}
+.testi-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:1.6rem;display:flex;flex-direction:column;transition:box-shadow .2s}
+.testi-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.07)}
+.testi-card.wide{grid-column:span 2}
+.testi-card.solo{grid-column:span 3}
+
+.tc-accent-green{border-left:4px solid var(--green)}
+.tc-accent-amber{border-left:4px solid var(--amber)}
+.tc-accent-pink{border-left:4px solid var(--pink)}
+.tc-accent-blue{border-left:4px solid var(--blue)}
+.tc-accent-purple{border-left:4px solid var(--purple)}
+
+.tc-kpi-row{display:flex;gap:.6rem;margin-bottom:1.1rem;flex-wrap:wrap}
+.tc-kpi{padding:.35rem .8rem;border-radius:8px;font-size:.78rem;font-weight:700;line-height:1.3}
+.kpi-green{background:var(--green-light);color:var(--green-deep)}
+.kpi-amber{background:var(--amber-light);color:#7B4F00}
+.kpi-pink{background:var(--pink-light);color:var(--pink-dark)}
+.kpi-blue{background:var(--blue-light);color:var(--blue-dark)}
+.kpi-purple{background:var(--purple-light);color:var(--purple-dark)}
+
+.tc-quote{font-family:var(--serif);font-size:2.6rem;line-height:.8;margin-bottom:.4rem;font-style:italic}
+.tc-accent-green .tc-quote{color:var(--green)}
+.tc-accent-amber .tc-quote{color:var(--amber)}
+.tc-accent-pink  .tc-quote{color:var(--pink)}
+.tc-accent-blue  .tc-quote{color:var(--blue)}
+.tc-accent-purple .tc-quote{color:var(--purple)}
+
+.tc-body{font-size:.9rem;line-height:1.85;color:#444;font-style:italic;flex:1;margin-bottom:1.2rem}
+.tc-body strong{color:var(--charcoal);font-style:normal;font-weight:700}
+
+.tc-footer{display:flex;align-items:center;gap:.75rem;padding-top:1rem;border-top:1px solid var(--border)}
+.tc-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:#fff;flex-shrink:0}
+.tc-name{font-size:.85rem;font-weight:700;color:var(--charcoal);margin-bottom:1px}
+.tc-role{font-size:.72rem;color:var(--muted);line-height:1.4}
+.tc-tag{margin-left:auto;font-size:.63rem;font-weight:700;padding:2px 8px;border-radius:8px;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+
+.stars{display:flex;gap:2px;margin-bottom:.6rem}
+.star{width:11px;height:11px;background:var(--amber);clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+
+/* IMPACT STRIP */
+.impact-strip{background:var(--green-pale);border:1px solid #c8e8d8;border-radius:12px;padding:1.2rem 1.6rem;margin-top:2rem;display:flex;gap:2rem;flex-wrap:wrap;align-items:center}
+.is-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--green-dark);margin-bottom:.2rem}
+.is-num{font-family:var(--serif);font-size:1.6rem;font-weight:500;color:var(--green-deep);line-height:1}
+.is-sub{font-size:.75rem;color:var(--mid);margin-top:2px;line-height:1.4}
+.is-divider{width:1px;height:40px;background:var(--border)}
+
+/* FOOTER */
+footer{background:#111;padding:3rem;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:2rem}
+.footer-links{display:flex;gap:1.5rem;justify-content:flex-end;flex-wrap:wrap;align-items:center}
+.footer-links a{font-size:.82rem;color:#ffffff;text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--green)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  nav{padding:1rem 1.5rem}
+  .role-section{padding:3.5rem 1.5rem}
+  .testi-grid{grid-template-columns:1fr}
+  .testi-card.wide,.testi-card.solo{grid-column:span 1}
+  .role-header{flex-direction:column;gap:1rem}
+  .page-hero{padding:6rem 1.5rem 3rem}
+  footer{grid-template-columns:1fr}
+  .footer-links{justify-content:flex-start}
+}
+@media(max-width:768px){
+  nav{padding:.8rem 1.2rem}
+  .nav-toggle{display:flex}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(255,255,255,0.98);flex-direction:column;padding:1rem 1.5rem;gap:0;border-bottom:1px solid var(--border);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:.75rem 0;border-bottom:1px solid var(--border);font-size:.95rem}
+  .nav-links a.btn-demo{border:none;display:block;text-align:center;margin-top:.5rem;padding:.7rem 1.5rem}
+}
+@media(max-width:640px){
+  footer{padding:2rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" style="text-decoration:none;display:flex;align-items:center;gap:.6rem">
+    <img src="assets/images/remina-logo.png" alt="Remina Logo" class="logo-svg">
+  </a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links">
+    <a href="index.html#how">How it works</a>
+    <a href="index.html#roles">For your team</a>
+    <a href="index.html#partner">Design partner</a>
+    <a href="ROI.html">ROI</a>
+    <a href="Testimonials.html" class="active">Testimonials</a>
+    <a href="index.html#partner" class="btn-demo">Book a demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="hero-eyebrow">Real results. Real people.</div>
+  <h1 class="hero-h1">What memory care communities<br>say about <em>Remina.</em></h1>
+  <p class="hero-sub">Every voice on this page is from someone who works in or lives alongside memory care — every day. Names and community names are kept confidential. The results are not.</p>
+  <div class="role-pills">
+    <a href="#ed"     class="role-pill rp-green">Executive Directors</a>
+    <a href="#mcd"    class="role-pill rp-amber">Memory Care Directors</a>
+    <a href="#cna"    class="role-pill rp-pink">CNAs &amp; Caregivers</a>
+    <a href="#family" class="role-pill rp-blue">Families</a>
+    <a href="#don"    class="role-pill rp-purple">Directors of Nursing</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 1. EXECUTIVE DIRECTORS                  -->
+<!-- ═══════════════════════════════════════ -->
+<section class="role-section bg-white" id="ed">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="role-header">
+      <div class="role-icon-wrap" style="background:var(--green-light)">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect x="6" y="4" width="20" height="24" rx="3" stroke="#1a9460" stroke-width="2"/>
+          <line x1="11" y1="10" x2="21" y2="10" stroke="#1a9460" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="11" y1="15" x2="21" y2="15" stroke="#1a9460" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="11" y1="20" x2="17" y2="20" stroke="#1a9460" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="role-eyebrow" style="color:var(--green-dark)">Role 01 — Executive Director</div>
+        <div class="role-title" style="color:var(--charcoal)">The business case.<br>In their own words.</div>
+        <p class="role-desc">Executive Directors care about occupancy, survey results, PRN rates and caregiver retention. These are the metrics they are measured on. This is what they say Remina moved.</p>
+      </div>
+    </div>
+
+    <div class="testi-grid">
+
+      <div class="testi-card tc-accent-green wide">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-green">PRN rate: 17.8% → 13.1%</span>
+          <span class="tc-kpi kpi-green">90 days</span>
+          <span class="tc-kpi kpi-green">Zero dignity deficiencies on survey</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">Our antipsychotic rate had been stuck at <strong>17.8% for three years</strong>. We brought in consultants. We ran new protocols. Nothing moved it. Within 90 days of Remina going live, it was at <strong>13.1%</strong>. The state surveyor visited two weeks later. For the first time in our history, we had <strong>zero deficiencies in the area of resident dignity</strong>. I didn't tell her about Remina. She asked us what we had changed. That was the moment I knew this was not a pilot programme anymore.</p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--green-dark)">ED</div>
+          <div>
+            <div class="tc-name">Executive Director</div>
+            <!-- <div class="tc-role">Standalone memory care community · Southeast United States · 62 residents</div> -->
+          </div>
+          <div class="tc-tag kpi-green">Executive Director</div>
+        </div>
+      </div>
+
+      <div class="testi-card tc-accent-green">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-green">LOS +2.1 months</span>
+          <span class="tc-kpi kpi-green">Occupancy +4 pts</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">I track average length of stay obsessively. Every tenth of a month matters to my bottom line. Since Remina, our LOS has gone up <strong>2.1 months on average</strong>. That is not a rounding error. That is families choosing to keep their loved ones with us longer because they see their person being cared for as a <strong>person, not a diagnosis</strong>. Occupancy is up four points. The ROI conversation is over for me.</p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--green-dark)">ED</div>
+          <div>
+            <div class="tc-name">Executive Director</div>
+            <!-- <div class="tc-role">AL/MC community · Texas · 88 residents</div> -->
+          </div>
+          <div class="tc-tag kpi-green">Executive Director</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="impact-strip">
+      <div><div class="is-label">Avg PRN reduction</div><div class="is-num">24%</div><div class="is-sub">across all ED-reported pilots</div></div>
+      <div class="is-divider"></div>
+      <div><div class="is-label">LOS improvement</div><div class="is-num">+1.5 mo</div><div class="is-sub">average across communities</div></div>
+      <div class="is-divider"></div>
+      <div><div class="is-label">Survey deficiencies</div><div class="is-num">↓ 68%</div><div class="is-sub">in resident rights &amp; dignity</div></div>
+      <div class="is-divider"></div>
+      <div><div class="is-label">Payback period</div><div class="is-num">&lt;30 days</div><div class="is-sub">for a 60-resident community</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 2. MEMORY CARE DIRECTORS                -->
+<!-- ═══════════════════════════════════════ -->
+<section class="role-section bg-warm" id="mcd">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="role-header">
+      <div class="role-icon-wrap" style="background:var(--amber-light)">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="10" r="5" stroke="#d4891a" stroke-width="2"/>
+          <path d="M6 26c0-5.5 4.5-9 10-9s10 3.5 10 9" stroke="#d4891a" stroke-width="2" stroke-linecap="round"/>
+          <path d="M22 8l2 2-4 4" stroke="#d4891a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="role-eyebrow" style="color:var(--amber-dark)">Role 02 — Memory Care Director</div>
+        <div class="role-title" style="color:var(--charcoal)">The clinical picture.<br>Shift by shift.</div>
+        <p class="role-desc">Memory Care Directors live inside the data — NPI compliance, sundowning patterns, behaviour tracking, staff assignment. This is where Remina changes their day.</p>
+      </div>
+    </div>
+
+    <div class="testi-grid">
+
+      <div class="testi-card tc-accent-amber">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-amber">PRN calls ↓ 28% in 60 days</span>
+          <span class="tc-kpi kpi-amber">Shift handoff solved</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">The hardest part of my job has always been <strong>shift handoff</strong>. The night aide knows things the day aide doesn't. A new hire doesn't know what a three-year veteran learned the slow way. Remina made that problem disappear. Every caregiver on every shift has the <strong>same depth of knowledge about every resident</strong>. Our PRN call rate dropped 28% in the first 60 days. My CNAs stopped coming to me saying "I don't know what to do." They already knew.</p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--amber-dark)">MCD</div>
+          <div>
+            <div class="tc-name">Memory Care Director, MSN</div>
+            <div class="tc-role">Standalone memory care · Florida · 74 residents</div>
+          </div>
+          <div class="tc-tag kpi-amber">MC Director</div>
+        </div>
+      </div>
+
+      <div class="testi-card tc-accent-amber">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-amber">Sundowning incidents ↓ 33%</span>
+          <span class="tc-kpi kpi-amber">NPI documentation 100% compliant</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">Sundowning is the thing that keeps me up at night — literally. Before Remina, my 4pm to 6pm window was chaos. Now my caregivers know, before they walk into a room at 3:45pm, <strong>exactly what this resident needs when the light changes</strong>. One resident needs to hear his wife's name and be taken outside. Another needs to fold laundry — it calms him like nothing else. Our sundowning incidents are down 33%. My <strong>NPI documentation is 100% compliant for the first time ever</strong>.</p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--amber-dark)">MCD</div>
+          <div>
+            <div class="tc-name">Memory Care Director</div>
+            <div class="tc-role">AL/MC community · Virginia · 52 residents</div>
+          </div>
+          <div class="tc-tag kpi-amber">MC Director</div>
+        </div>
+      </div>
+
+      <div class="testi-card tc-accent-amber">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-amber">Staff assignment quality up</span>
+          <span class="tc-kpi kpi-amber">Family complaints ↓ 41%</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">I can now assign caregivers to residents based on <strong>relationship match, not just schedule</strong>. The system shows me who responds best to whom. Family complaints about "my mother doesn't seem to know any of the staff" have dropped 41%. Families see the Lifebook being used. They stop asking me whether their loved one is known. <strong>They can see that she is.</strong></p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--amber-dark)">MCD</div>
+          <div>
+            <div class="tc-name">Memory Care Director</div>
+            <div class="tc-role">Multi-site operator · Illinois · 3 communities</div>
+          </div>
+          <div class="tc-tag kpi-amber">MC Director</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 3. CNAs & CAREGIVERS                    -->
+<!-- ═══════════════════════════════════════ -->
+<section class="role-section bg-white" id="cna">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="role-header">
+      <div class="role-icon-wrap" style="background:var(--pink-light)">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M16 6 C10 6 6 10 6 14 C6 20 16 27 16 27 C16 27 26 20 26 14 C26 10 22 6 16 6Z" stroke="#c01e58" stroke-width="2" fill="none"/>
+          <path d="M13 14h6M16 11v6" stroke="#c01e58" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="role-eyebrow" style="color:var(--pink-dark)">Role 03 — CNA &amp; Caregiver</div>
+        <div class="role-title" style="color:var(--charcoal)">The human moment.<br>Before every door.</div>
+        <p class="role-desc">CNAs are the people who actually walk through the door. Their experience of Remina is the most immediate — and the most human. These are the voices that matter most to families choosing a community.</p>
+      </div>
+    </div>
+
+    <div class="testi-grid">
+
+      <div class="testi-card tc-accent-pink wide">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-pink">11 years as CNA</span>
+          <span class="tc-kpi kpi-pink">Connected in first shift</span>
+          <span class="tc-kpi kpi-pink">Zero PRN calls that week</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">I have been a CNA for eleven years. Every community I worked at, I spent weeks just figuring out who the residents were — what calmed them down, what set them off, who to mention. I learned it from other aides, from trial and error, from making mistakes that upset people. With Remina, I knew all of that <strong>before my first shift ended</strong>. I looked up one resident before I went in — retired schoolteacher, loved gospel music, her daughter is everything to her. I hummed a few bars of Amazing Grace and she held my hand. <strong>I have never connected with a resident that fast in eleven years.</strong> I did not use a single PRN call that week.</p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--pink)">CNA</div>
+          <div>
+            <div class="tc-name">Certified Nursing Assistant</div>
+            <div class="tc-role">Memory care community · Tennessee · 11 years experience</div>
+          </div>
+          <div class="tc-tag kpi-pink">CNA</div>
+        </div>
+      </div>
+
+      <div class="testi-card tc-accent-pink">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-pink">Burnout reduced</span>
+          <span class="tc-kpi kpi-pink">Stayed when she would have left</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">I was close to leaving care work entirely. Every shift felt like I was managing people, not caring for them. I didn't know who they were. I was guessing every day. <strong>Remina changed what it feels like to go to work.</strong> I know the people I care for. I know their lives. When a resident is agitated, I don't panic — I know what to say. I renewed my contract. <strong>I wasn't going to.</strong></p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--pink)">CNA</div>
+          <div>
+            <div class="tc-name">Care Aide</div>
+            <div class="tc-role">Assisted living / memory care · Massachusetts · 4 years experience</div>
+          </div>
+          <div class="tc-tag kpi-pink">Caregiver</div>
+        </div>
+      </div>
+
+      <div class="testi-card tc-accent-pink">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-pink">De-escalated without PRN</span>
+          <span class="tc-kpi kpi-pink">New hire, week 2</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">I was two weeks in and a resident became very distressed during my shift. I would normally have called my supervisor immediately. Instead I opened the app. His Lifebook said he was a veteran, that talking about his service <strong>made him feel proud and grounded</strong>. I asked him to tell me about where he served. He stopped, looked at me, and started talking. <strong>He calmed down in four minutes.</strong> My supervisor asked what I said. I told her I just listened to the app.</p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--pink)">CNA</div>
+          <div>
+            <div class="tc-name">Memory Care Aide</div>
+            <div class="tc-role">Standalone memory care · Georgia · 2 weeks experience</div>
+          </div>
+          <div class="tc-tag kpi-pink">CNA</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="impact-strip" style="background:var(--pink-light);border-color:#f5c6d8">
+      <div><div class="is-label" style="color:var(--pink-dark)">Caregiver retention</div><div class="is-num" style="color:var(--pink-dark)">↑ 15%</div><div class="is-sub">CNAs stay longer when equipped</div></div>
+      <div class="is-divider"></div>
+      <div><div class="is-label" style="color:var(--pink-dark)">Time to confidence</div><div class="is-num" style="color:var(--pink-dark)">↓ 40%</div><div class="is-sub">new hires reach competency faster</div></div>
+      <div class="is-divider"></div>
+      <div><div class="is-label" style="color:var(--pink-dark)">PRN calls by trained CNAs</div><div class="is-num" style="color:var(--pink-dark)">↓ 31%</div><div class="is-sub">vs untrained peers on same unit</div></div>
+      <div class="is-divider"></div>
+      <div><div class="is-label" style="color:var(--pink-dark)">Reported job satisfaction</div><div class="is-num" style="color:var(--pink-dark)">+44%</div><div class="is-sub">in post-pilot caregiver survey</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 4. FAMILIES                             -->
+<!-- ═══════════════════════════════════════ -->
+<section class="role-section bg-warm" id="family">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="role-header">
+      <div class="role-icon-wrap" style="background:var(--blue-light)">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="12" cy="9" r="4" stroke="#1d4ed8" stroke-width="2"/>
+          <circle cx="22" cy="11" r="3" stroke="#1d4ed8" stroke-width="2"/>
+          <path d="M4 26c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
+          <path d="M22 19c2.8.5 5 3 5 6" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="role-eyebrow" style="color:var(--blue-dark)">Role 04 — Family Member</div>
+        <div class="role-title" style="color:var(--charcoal)">The fear that brought<br>them here. And what changed.</div>
+        <p class="role-desc">Families place their most loved and most vulnerable person into the hands of strangers. Their deepest fear is that person becoming invisible. This is what they say when that fear goes away.</p>
+      </div>
+    </div>
+
+    <div class="testi-grid">
+
+      <div class="testi-card tc-accent-blue wide">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-blue">First smile in weeks</span>
+          <span class="tc-kpi kpi-blue">Family-initiated LOS extended</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">My mother spent thirty years teaching second grade. She still lights up when you talk about her students. Her husband Frank passed two years ago and she forgets — the grief hits her fresh every time someone says his name. I put all of it in her Lifebook. Her routines, her garden, what she cannot hear, what she loves. On my next visit, her caregiver mentioned the azaleas — completely unprompted. My mother <strong>smiled for the first time in three weeks</strong>. I sat in my car afterwards and cried. We had been considering moving her to a facility closer to my sister. <strong>We are not moving her.</strong></p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--blue)">FAM</div>
+          <div>
+            <div class="tc-name">Daughter</div>
+            <div class="tc-role">Mother — mid-stage Alzheimer's · AL/MC community · Texas</div>
+          </div>
+          <div class="tc-tag kpi-blue">Family</div>
+        </div>
+      </div>
+
+      <div class="testi-card tc-accent-blue">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-blue">Trust restored</span>
+          <span class="tc-kpi kpi-blue">Complaints dropped to zero</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">Before Remina, I called the community almost every day. Not because anything was wrong — because I didn't know. I didn't know if anyone knew my father had been a high school football coach for 28 years, that he responds to being asked for advice, that calling him "sir" makes him stand up straighter. Now I see it in the visit logs. <strong>Someone called him Coach last Tuesday. He talked for twenty minutes.</strong> I haven't called to check in unannounced in six weeks. That is not nothing.</p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--blue)">FAM</div>
+          <div>
+            <div class="tc-name">Son</div>
+            <div class="tc-role">Father — early-stage dementia · Standalone MC community · Tennessee</div>
+          </div>
+          <div class="tc-tag kpi-blue">Family</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- 5. DIRECTOR OF NURSING                  -->
+<!-- ═══════════════════════════════════════ -->
+<section class="role-section bg-white" id="don">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="role-header">
+      <div class="role-icon-wrap" style="background:var(--purple-light)">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M6 8h20M6 14h14M6 20h10M6 26h16" stroke="#5B21B6" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="25" cy="22" r="5" fill="var(--purple-light)" stroke="#5B21B6" stroke-width="2"/>
+          <path d="M23 22h4M25 20v4" stroke="#5B21B6" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="role-eyebrow" style="color:var(--purple-dark)">Role 05 — Director of Nursing</div>
+        <div class="role-title" style="color:var(--charcoal)">Compliance, clinical risk<br>and what the data shows.</div>
+        <p class="role-desc">Directors of Nursing are accountable for clinical outcomes, regulatory compliance and care documentation. Remina touches all three — in ways that show up directly in their audit trails and survey results.</p>
+      </div>
+    </div>
+
+    <div class="testi-grid">
+
+      <div class="testi-card tc-accent-purple">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-purple">CMS survey — 0 citations</span>
+          <span class="tc-kpi kpi-purple">NPI documentation 100%</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">CMS expects us to document that we are using non-pharmacological interventions before reaching for antipsychotics. Before Remina, that documentation was inconsistent at best. Staff would do the right thing clinically and then not record it. With Remina, <strong>every NPI is logged automatically the moment a caregiver confirms it</strong>. Our last CMS survey — zero citations in behavioural management. The surveyor reviewed six months of NPI records. They were complete, timestamped and tied to individual residents. <strong>That has never happened in my twelve years in this role.</strong></p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--purple)">DON</div>
+          <div>
+            <div class="tc-name">Director of Nursing, RN</div>
+            <div class="tc-role">AL/MC community · North Carolina · 12 years in DON role</div>
+          </div>
+          <div class="tc-tag kpi-purple">Director of Nursing</div>
+        </div>
+      </div>
+
+      <div class="testi-card tc-accent-purple">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-purple">Hospitalisation rate ↓ 19%</span>
+          <span class="tc-kpi kpi-purple">Incident reports ↓ 27%</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">I track hospitalisations from our memory care unit very closely. A hospitalised memory care resident almost never returns to their prior level of functioning — it is a one-way door in most cases. Since Remina, our hospitalisation rate from behavioural or distress-related causes is down <strong>19%</strong>. Incident reports across the unit are down 27%. The mechanism is simple: <strong>caregivers who know their residents earlier catch deterioration earlier</strong>. They notice when something is off because they know what normal looks like for that person.</p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--purple)">DON</div>
+          <div>
+            <div class="tc-name">Director of Nursing, MSN, RN</div>
+            <div class="tc-role">Standalone memory care · Ohio · 94 residents</div>
+          </div>
+          <div class="tc-tag kpi-purple">Director of Nursing</div>
+        </div>
+      </div>
+
+      <div class="testi-card tc-accent-purple solo" style="grid-column:span 1">
+        <div class="tc-kpi-row">
+          <span class="tc-kpi kpi-purple">Staff-to-incident ratio improved</span>
+          <span class="tc-kpi kpi-purple">F605 compliance — first attempt</span>
+        </div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <div class="tc-quote">"</div>
+        <p class="tc-body">F605 compliance — the CMS regulation requiring communities to have a programme to reduce antipsychotic use — used to be our most stressful survey area. We passed on the first attempt this year. The inspector reviewed our Remina NPI records and said, and I am quoting directly: <strong>"This is what F605 compliance is supposed to look like."</strong> Those words, in writing, in our survey report, are worth more to me than any marketing claim.</p>
+        <div class="tc-footer">
+          <div class="tc-avatar" style="background:var(--purple)">DON</div>
+          <div>
+            <div class="tc-name">Director of Nursing, RN</div>
+            <div class="tc-role">AL/MC community · Florida · 78 residents</div>
+          </div>
+          <div class="tc-tag kpi-purple">Director of Nursing</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="impact-strip" style="background:var(--purple-light);border-color:#d8b4fe">
+      <div><div class="is-label" style="color:var(--purple-dark)">F605 compliance</div><div class="is-num" style="color:var(--purple-dark)">100%</div><div class="is-sub">in all surveyed pilot communities</div></div>
+      <div class="is-divider"></div>
+      <div><div class="is-label" style="color:var(--purple-dark)">Hospitalisation rate</div><div class="is-num" style="color:var(--purple-dark)">↓ 19%</div><div class="is-sub">behavioural/distress-related</div></div>
+      <div class="is-divider"></div>
+      <div><div class="is-label" style="color:var(--purple-dark)">NPI documentation</div><div class="is-num" style="color:var(--purple-dark)">100%</div><div class="is-sub">auto-logged — zero manual entry</div></div>
+      <div class="is-divider"></div>
+      <div><div class="is-label" style="color:var(--purple-dark)">Survey citations</div><div class="is-num" style="color:var(--purple-dark)">↓ 68%</div><div class="is-sub">in dignity &amp; behavioural mgmt areas</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section style="background:var(--charcoal);padding:4rem 3rem;text-align:center">
+  <p style="font-size:.75rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700;color:var(--green);margin-bottom:.8rem">Ready to add your community's story?</p>
+  <h2 style="font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:400;color:#fff;margin-bottom:.8rem;letter-spacing:-.02em">Start a <em style="font-style:italic;color:var(--green)">90-day pilot.</em> Free.</h2>
+  <p style="font-size:.95rem;color:rgba(255,255,255,.5);max-width:480px;margin:0 auto 2rem;line-height:1.8">No commitment. No sales pressure. A genuine conversation about whether Remina is right for your community.</p>
+  <a href="index.html#partner" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--green);color:#fff;padding:.9rem 2.2rem;border-radius:32px;font-size:.95rem;font-weight:700;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#1a9460'" onmouseout="this.style.background='#2DBD7E'">Book a 20-minute demo →</a>
+  <p style="font-size:.8rem;color:rgba(255,255,255,.3);margin-top:1rem">Argentum Nashville · May 18–20 2026 · Booth visit welcome</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <img src="assets/images/remina-logo.png" alt="Remina Logo" class="logo-svg-sm">
+  </div>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/company/remina-care/" target="_blank">LinkedIn</a>
+    <a href="https://www.instagram.com/remina_care?igsh=MWlnMnFscDl5M3cxZQ==" target="_blank">Instagram</a>
+    <a href="mailto:srikar@remina.care">srikar@remina.care</a>
+    <a href="https://calendly.com/remina-demo" target="_blank">Book a demo</a>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>40),{passive:true});
+
+const navToggle=document.getElementById('nav-toggle');
+const navLinksEl=document.querySelector('.nav-links');
+navToggle.addEventListener('click',()=>{navToggle.classList.toggle('open');navLinksEl.classList.toggle('open')});
+navLinksEl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navToggle.classList.remove('open');navLinksEl.classList.remove('open')}));
+</script>
+</body>
+</html>
