@@ -1,0 +1,168 @@
+:root {
+  --green:        #2DBD7E;
+  --green-dark:   #1a9460;
+  --green-deep:   #0f5c3c;
+  --green-light:  #e8f8f0;
+  --green-pale:   #f3fcf8;
+  --amber:        #F5A623;
+  --amber-dark:   #d4891a;
+  --amber-light:  #fef5e4;
+  --pink:         #E8276B;
+  --pink-dark:    #c01e58;
+  --pink-light:   #fde8f1;
+  --blue:         #2563EB;
+  --blue-dark:    #1d4ed8;
+  --blue-light:   #eff6ff;
+  --purple:       #7C3AED;
+  --purple-dark:  #5B21B6;
+  --purple-light: #f5f3ff;
+  --charcoal:     #1C1C1C;
+  --charcoal-2:   #2e2e2e;
+  --mid:          #555555;
+  --muted:        #888888;
+  --border:       #e8e8e8;
+  --bg:           #ffffff;
+  --bg-warm:      #fafaf8;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans:  'Nunito', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--charcoal);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Shared logo sizes */
+.logo-svg    { height: 44px; width: auto; display: block; }
+.logo-svg-sm { height: 36px; width: auto; display: block; }
+
+/* Fade-up scroll animation */
+.fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Shared footer */
+footer {
+  background: #111;
+  padding: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+}
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.footer-links a {
+  font-size: 0.82rem;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--green); }
+
+/* Shared nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 3rem;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+nav.scrolled {
+  border-color: var(--border);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+}
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-links a {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--charcoal); }
+.nav-links a.active { color: var(--green); font-weight: 600; }
+
+.btn-demo {
+  background: var(--green);
+  color: white !important;
+  padding: 0.6rem 1.5rem;
+  border-radius: 24px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+}
+.btn-demo:hover { background: var(--green-dark) !important; transform: translateY(-1px); }
+
+/* Hamburger */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 300;
+}
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--charcoal);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  nav { padding: 0.8rem 1.2rem; }
+  .nav-toggle { display: flex; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: rgba(255,255,255,0.98);
+    flex-direction: column;
+    padding: 1rem 1.5rem;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+  .nav-links a.btn-demo { border: none; display: block; text-align: center; margin-top: 0.5rem; padding: 0.7rem 1.5rem; }
+  footer { grid-template-columns: 1fr; padding: 2rem 1rem; }
+  .footer-links { justify-content: flex-start; }
+}
+@media (max-width: 960px) {
+  nav { padding: 1rem 1.5rem; }
+}
